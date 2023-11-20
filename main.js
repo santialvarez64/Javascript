@@ -1,38 +1,84 @@
-//Simulador basico de tienda, en este simulador agregamos un producto o servicio ingresando los precios a pagar y asi vamos acumulando, para luego ver el precio total.
+const productos = [
+    {id: 1, nombre: "remera", precio: 1500},
+    {id: 2, nombre: "pantalon", precio:3500},
+    {id: 3, nombre: "buzo", precio: 1300},
+    {id: 4, nombre: "jeans", precio: 2500},
+    {id: 5, nombre: "shorts", precio: 1500},
+    {id: 6, nombre: "canguro", precio: 2600},
+    {id: 7, nombre: "championes", precio: 990},
+    
+]
 
-// Defino variable
-let total = 0;
+let carrito = []
 
-// calcular valor total 
-function calcularTotal(precio) {
-  total += precio;
+let seleccion = prompt("Hola, desea comprar algun producto? si o no")
+
+while(seleccion != "si" && seleccion != "no"){
+    alert("Por favor ingresa si o no")
+    seleccion = prompt("Hola desea comprar algo? si o no")
 }
 
-// Bucle para agregar productos o servicios
-do {
-  let precioProducto = prompt("Ingresa el precio del producto o servicio (o escribe 'No' para finalizar):");
+if(seleccion == "si"){
+    alert("Estos son nuestros productos")
+    let todosLosProductos = productos.map((producto) => producto.nombre + " " + producto.precio + "$" )
 
-  if(precioProducto === null){
-    alert("Gracias por visitarnos")
-    break;
-  }
-
-  if (!isNaN(parseFloat(precioProducto))) {
-    precioProducto = parseFloat(precioProducto); // Convertimos a número
-    calcularTotal(precioProducto);
-    alert("Valor acumulado: $" + total);
-  } else if (precioProducto.toLowerCase() === "no") {
-    // si el usuario escribe no, salimos del bucle
-    break;
-  } else {
-    alert("Ingresa un número válido o escribe 'No' para finalizar.");
-  }
-} while (true);
-
-// Mostrar el valor total acumulado
-
-if (total > 0){
-  alert("El valor total es: $" + total);
+    alert(todosLosProductos.join(" - "))
+} else if (seleccion == "no"){
+    alert("gracias por venir")
 }
 
+while(seleccion != "no"){
+    let producto = prompt("Agrega un producto a tu carrito")
+    let precio = 0
+    if(producto == "remera" || producto == "pantalon" || producto == "buzo" || producto == "jeans" || producto == "shorts" || producto == "canguro" || producto == "championes"){
+        switch(producto){
+            case "remera":
+            precio = 1500;
+            break;
+            
+            case "pantalon":
+            precio = 3500;
+            break;
 
+            case "buzo":
+            precio = 1300;
+            break;
+
+            case "jeans":
+            precio = 2500;
+            break;
+
+            case "shorts":
+            precio = 1500;
+            break;
+
+            case "canguro":
+            precio = 2600;
+            break;
+
+            case "championes":
+            precio = 990;
+            break;
+            default:
+            break;
+        }
+        let unidades = parseInt(prompt("Cuantas unidades desea llevar?"))
+        carrito.push({producto, unidades, precio})
+        console.log(carrito)
+    } else{
+        alert("No tenemos ese producto")
+    }
+
+    seleccion = prompt("Desea seguir comprando? si o no")
+    
+    while(seleccion == "no"){
+        alert("Gracias por la compra")
+        carrito.forEach((carritoFinal) =>{
+            console.log(`producto: ${carritoFinal.producto}, unidades: ${carritoFinal.unidades}, total a pagar por producto ${carritoFinal.unidades * carritoFinal.precio} `)
+        })
+        break;
+    }
+}
+
+const total = carrito.reduce((acc, el) => acc + el.precio * el.unidades, 0)
+console.log(`El total a pagar por su compra es: ${total}`)
